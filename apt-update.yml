@@ -1,0 +1,8 @@
+---
+- name: Update APT package cache
+  hosts: all
+  become: yes # Run tasks with sudo privileges
+  tasks:
+    - name: Update package cache
+      ansible.builtin.apt:
+        update_cache: yes
