@@ -1,12 +1,12 @@
 ---
-- name: Upgrade packages on all hosts
+- name: Upgrade all packages
   hosts: all
   become: yes
   tasks:
     - name: Update apt cache
       apt:
         update_cache: yes
-
     - name: Upgrade all packages
       apt:
-        upgrade: dist
+        name: "*"
+        state: latest
