@@ -1,8 +1,17 @@
 ---
-- name: Update APT package cache
+- name: Update package cache and show upgradable packages
   hosts: all
-  become: yes # Run tasks with sudo privileges
+  become: yes
   tasks:
-    - name: Update package cache
+    - name: Update APT package cache
       ansible.builtin.apt:
         update_cache: yes
+
+    - name: List upgradable packages
+      ansible.builtin.command: apt list --upgradable
+      register: upgrade_list
+      changed_when: false
+
+    - name: Show list of upgradable packages
+      ansible.builtin.debug:
+        msg: "{{ upgrade_list.stdout_lines }}"
