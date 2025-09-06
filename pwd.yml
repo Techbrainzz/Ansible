@@ -1,0 +1,12 @@
+---
+- name: Show current working directory
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Execute pwd command
+      command: pwd
+      register: pwd_output
+
+    - name: Display the output
+      debug:
+        msg: "Current working directory is: {{ pwd_output.stdout }}"
