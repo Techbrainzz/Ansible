@@ -1,12 +1,18 @@
 ---
-- name: Upgrade all packages
+- name: Upgrade all packages and show number of updates
   hosts: all
   become: yes
   tasks:
     - name: Update apt cache
       apt:
         update_cache: yes
+
     - name: Upgrade all packages
       apt:
         name: "*"
         state: latest
+      register: upgrade_result
+
+    - name: Show number of packages upgraded
+      debug:
+        msg: "Packages upgraded: {{ upgrade_result.cache_updated | default(false) and upgrade_result.changed | bool | ternary('some packages updated', 'no packages updated') }}"
